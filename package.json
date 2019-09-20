@@ -1,13 +1,20 @@
 {
-  "name": "cstore-pull",
-  "version": "0.4.0",
-  "description": "lightweight js client for cstore pull",
+  "name": "cstore-js",
+  "version": "1.0.0",
+  "author": "Shiv Patel",
+  "license": "Apache-2.0",
+  "description": "A lightweight package for using cStore configs in JavaScript",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shivpatel/cstore-js.git"
+  },
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Shiv Patel",
-  "license": "Apache-2.0",
+  "keywords": [
+    "cstore"
+  ],
   "dependencies": {
     "js-yaml": "^3.13.1"
   },
