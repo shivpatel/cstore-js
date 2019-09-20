@@ -20,19 +20,23 @@ provide.pull = async (ymlPath, tag, injectIntoProcess = true) => {
   console.info(`Loading configuration for ${tag}`);
   const doc = parser.parseYaml(ymlPath);
   const context = doc.context;
-  const fileinfo = parser.locateTag(doc, tag); // todo: could get multiple files back
-  if (!stores[fileinfo.store]) {
-    throw new Error(`cstore-pull - unsupported store type ${fileinfo.store}`);
+  const fileinfos = parser.locateTag(doc, tag);
+  let envVarsMerged = {};
+  for (let fileinfo of fileinfos) {
+	  if (!stores[fileinfo.store]) {
+	    throw new Error(`cstore-pull - unsupported store type ${fileinfo.store}`);
+	  }
+	  const envVars = await stores[fileinfo.store](context, fileinfo);
+	  envVarsMerged = Object.assign(envVarsMerged, envVars);
   }
-  const envVars = await stores[fileinfo.store](context, fileinfo);
   console.info(`Loaded configuration for ${tag}`);
   if (injectIntoProcess) {
-    for (let envKey in envVars) {
-      process.env[envKey] = envVars[envKey];
+    for (let envKey in envVarsMerged) {
+      process.env[envKey] = envVarsMerged[envKey];
     }
     console.info('Injected configuration into process.env');
   }
-  return envVars;
+  return envVarsMerged;
 }
 
 module.exports = provide;
