@@ -16,7 +16,7 @@ Supports up to cStore `2.5.1`.
 
 ## Usage
 
-```
+```javascript
 const cstore = require('cstore-pull');
 
 const initApp = async () => {
