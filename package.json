@@ -1,0 +1,15 @@
+{
+  "name": "cstore-pull",
+  "version": "2.5.1",
+  "description": "lightweight js client for cstore pull",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Shiv Patel",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.532.0",
+    "js-yaml": "^3.13.1"
+  }
+}
