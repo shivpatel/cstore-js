@@ -2,7 +2,7 @@
 
 [![NPM version](https://img.shields.io/npm/v/cstore-pull.svg)](https://www.npmjs.org/package/cstore-pull)
 
-cstore-pull is a lightweight JavaScript module for pulling cStore configs in Node. It currently **only supports the cStore S3 and SSM Parameter Store storage methods**; values encrypted with Secrets Manager are not supported. cstore-pull can automatically inject your configs into Node's `process.env`.
+cstore-pull is a lightweight JavaScript module for pulling cStore configs in Node. It currently supports the cStore S3 and SSM Parameter Store storage methods. It can also automatically inject all your configs into Node's `process.env` and decrypt env vars encrypted in Secrets Manager with references written in the `{{ENV/KEY}}` syntax.
 
 This module is only intended for use alongside an existing [cStore](https://github.com/turnerlabs/cstore) setup.
 
@@ -41,7 +41,7 @@ init();
 
 ## API
 
-### pull (ymlPath: String, tag: String, injectIntoProcess: Boolean)
+### pull (ymlPath: String, tag: String, injectIntoProcess: Boolean, injectSecrets: Boolean)
 
 Locates the given `tag` in the `cstore.yml` file located at `ymlPath`. Fetches the specified configs via AWS SDK and returns an object with env vars as key/value pairs.
 
@@ -49,3 +49,4 @@ Params:
 - `ymlPath` *(required)* - absolute path to your `cstore.yml` file
 - `tag` *(required)* - a valid tag associated to the env you're pulling configs for
 - `injectIntoProcess` *(default: `true`)* - if `true`, pulled configs will automatically be injected into Node's `process.env`
+- `injectSecrets` *(default: `true`)* - if `true`, env vars referencing secrets manager will be fetched and returned in decrypted form. 
