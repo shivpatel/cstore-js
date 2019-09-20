@@ -1,6 +1,6 @@
 {
   "name": "cstore-pull",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "lightweight js client for cstore pull",
   "main": "index.js",
   "scripts": {
@@ -9,7 +9,9 @@
   "author": "Shiv Patel",
   "license": "Apache-2.0",
   "dependencies": {
-    "aws-sdk": "^2.532.0",
     "js-yaml": "^3.13.1"
+  },
+  "devDependencies": {
+    "aws-sdk": "^2.532.0"
   }
 }
