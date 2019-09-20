@@ -1,16 +1,12 @@
-const yaml = require('js-yaml');
-const fs   = require('fs');
-const s3   = require('./s3.js');
+const parser = require('./lib/parser');
+const s3 = require('./lib/stores/s3');
+const ssm = require('./lib/stores/ssm');
 
 const provide = {};
 
-/**
- * Given full file path, return contents of file in UTF8
- * @param {String} path Absolute path to cstore.yml file 
- */
-const parseYaml = (path) => {
-  const doc = yaml.safeLoad(fs.readFileSync(path, 'utf8'));
-  return doc;
+const stores = {
+  'aws-s3': s3.getConfigs,
+  'aws-parameter': ssm.getConfigs
 }
 
 /**
@@ -22,10 +18,13 @@ const parseYaml = (path) => {
  */
 provide.pull = async (ymlPath, tag, injectIntoProcess = true) => {
   console.info(`Loading configuration for ${tag}`);
-  const doc = parseYaml(ymlPath);
+  const doc = parser.parseYaml(ymlPath);
   const context = doc.context;
-  const fileinfo = s3.locateTag(doc, tag);
-  const envVars = await s3.getConfig(context, fileinfo);
+  const fileinfo = parser.locateTag(doc, tag); // todo: could get multiple files back
+  if (!stores[fileinfo.store]) {
+    throw new Error(`cstore-pull - unsupported store type ${fileinfo.store}`);
+  }
+  const envVars = await stores[fileinfo.store](context, fileinfo);
   console.info(`Loaded configuration for ${tag}`);
   if (injectIntoProcess) {
     for (let envKey in envVars) {
