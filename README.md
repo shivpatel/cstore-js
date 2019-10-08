@@ -6,7 +6,7 @@
 
 This module is only intended for use alongside an existing [cStore](https://github.com/turnerlabs/cstore) setup.
 
-Tested against cStore `2.6.2`.
+Tested against cStore `3.3.1`.
 
 ## Installation
 
